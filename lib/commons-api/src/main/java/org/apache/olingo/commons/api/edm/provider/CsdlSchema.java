@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * The type Csdl schema.
  */
-public class CsdlSchema extends CsdlAbstractEdmItem implements CsdlAnnotatable {
+public class CsdlSchema extends CsdlAbstractEdmItem implements CsdlAnnotatable, Cloneable {
 
   private String namespace;
 
@@ -49,6 +49,15 @@ public class CsdlSchema extends CsdlAbstractEdmItem implements CsdlAnnotatable {
   private List<CsdlAnnotations> annotationGroups = new ArrayList<CsdlAnnotations>();
 
   private List<CsdlAnnotation> annotations = new ArrayList<CsdlAnnotation>();
+
+  public CsdlSchema copy() {
+    try{
+      return (CsdlSchema) super.clone();
+    } catch (Exception ignored) {
+    }
+    ;
+    return null;
+  }
 
   /**
    * Gets namespace.
@@ -326,7 +335,7 @@ public class CsdlSchema extends CsdlAbstractEdmItem implements CsdlAnnotatable {
   public List<CsdlAnnotations> getAnnotationGroups() {
     return annotationGroups;
   }
-  
+
   /**
    * Sets a list of annotations
    * @param annotationGroups list of annotations
@@ -374,7 +383,7 @@ public class CsdlSchema extends CsdlAbstractEdmItem implements CsdlAnnotatable {
   public List<CsdlAnnotation> getAnnotations() {
     return annotations;
   }
-  
+
   /**
    * Sets a list of annotations
    * @param annotations list of annotations

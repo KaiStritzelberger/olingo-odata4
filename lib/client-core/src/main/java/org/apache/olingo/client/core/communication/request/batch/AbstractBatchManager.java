@@ -39,6 +39,7 @@ public abstract class AbstractBatchManager extends AbstractODataStreamManager<OD
 
   protected final boolean continueOnError;
   private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+  private int lastContentId = 0;
 
   /**
    * Batch request current item.
@@ -64,6 +65,12 @@ public abstract class AbstractBatchManager extends AbstractODataStreamManager<OD
    * @return ODataChangeset instance.
    */
   public ODataChangeset addChangeset() {
+
+    // In order to have unique contentId in the batch request handle it outside of changeset.
+    if(currentItem instanceof ODataChangeset){
+      lastContentId = ((ODataChangeset)currentItem).getLastContentId();
+    }
+
     closeCurrentItem();
 
     // stream dash boundary
@@ -72,7 +79,7 @@ public abstract class AbstractBatchManager extends AbstractODataStreamManager<OD
     final ODataChangesetResponseItem expectedResItem = new ODataChangesetResponseItem(continueOnError);
     ((AbstractODataBatchRequest<?, ?>) req).addExpectedResItem(expectedResItem);
 
-    currentItem = new ODataChangesetImpl(req, expectedResItem);
+    currentItem = new ODataChangesetImpl(req, expectedResItem, lastContentId);
 
     return (ODataChangeset) currentItem;
   }

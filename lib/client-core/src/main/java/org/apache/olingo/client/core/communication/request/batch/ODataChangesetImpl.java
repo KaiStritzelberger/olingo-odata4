@@ -65,6 +65,13 @@ public class ODataChangesetImpl extends AbstractODataBatchRequestItem
     boundary = "changeset_" + UUID.randomUUID().toString();
   }
 
+  ODataChangesetImpl(final ODataBatchRequest req, final ODataChangesetResponseItem expectedResItem, int contentId) {
+    this(req, expectedResItem);
+    // Overwrite initial contentId with contentId given by caller.
+    // Needed to have unique contentId in complete batch request.
+    this.contentId = contentId;
+  }
+
   /**
    * {@inheritDoc}
    */
